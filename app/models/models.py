@@ -1,6 +1,6 @@
 """Define app models."""
 
-from app import db
+from app.extensions import db
 
 
 class Artist(db.Model):

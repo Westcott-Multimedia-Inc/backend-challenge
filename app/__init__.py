@@ -2,11 +2,10 @@
 
 from typing import List
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, jsonify, request
 
-
-db = SQLAlchemy()
+from .extensions import db
+from .models import Artist, Metric
 
 
 def create_app(config_class: object):
