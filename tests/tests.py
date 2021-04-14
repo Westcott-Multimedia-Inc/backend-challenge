@@ -1,10 +1,10 @@
 """Unit tests."""
 
-import unittest
 import datetime
+import unittest
 
-from app.config import TestingConfig
 from app import create_app, db
+from app.config import TestingConfig
 from app.helpers import timer
 from app.models import Artist, Metric
 
@@ -65,3 +65,15 @@ class TestMetrics(TestSetup):
             response.json[0]["crossings"][0],
             (datetime.date.today() - datetime.timedelta(950)).strftime("%Y-%m-%d")
         )
+
+    def test_returns_validation_error_with_invalid_metric_value(self):
+        """Test that metrics route returns validation error for passed invalid
+        query param."""
+
+        @timer(10)
+        def call_endpoint_with_invalid_param(self):
+            return self.app.test_client().get("/metrics?metric_value=-1")
+
+        response = call_endpoint_with_invalid_param(self)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json['message'], "Invalid 'metric_value'")
