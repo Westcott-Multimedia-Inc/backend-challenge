@@ -50,6 +50,8 @@ class TestMetrics(TestSetup):
                     date = datetime.date.today() - datetime.timedelta(j)
                     value = (1000 - j) / (i + 1)
                     db.session.add(Metric(artist_id=i+1, date=date, value=value))
+            # test artist without metrics
+            db.session.add(Artist())
             db.session.commit()
 
         @timer(10)
@@ -59,8 +61,9 @@ class TestMetrics(TestSetup):
         create_data()
         response = call_endpoint(self)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.json), 100)
+        self.assertEqual(len(response.json), 101)
         self.assertEqual(response.json[0]["artist_id"], 1)
+        self.assertListEqual(response.json[-1]["crossings"], [])
         self.assertEqual(
             response.json[0]["crossings"][0],
             (datetime.date.today() - datetime.timedelta(950)).strftime("%Y-%m-%d")
