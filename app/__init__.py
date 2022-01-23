@@ -12,7 +12,7 @@ def create_app(config_class: object):
     """Create Flask app.
 
     Args:
-        config_class: configuation for Flask app
+        config_class: configuration for Flask app
     """
     app = Flask(__name__)
     app.config.from_object(config_class)
