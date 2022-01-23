@@ -1,6 +1,7 @@
 """Define app models."""
+from flask_sqlalchemy import SQLAlchemy
 
-from app import db
+db = SQLAlchemy()
 
 
 class Artist(db.Model):

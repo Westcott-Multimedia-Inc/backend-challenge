@@ -3,10 +3,8 @@
 from typing import List
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
-
-db = SQLAlchemy()
+from app.models import db
 
 
 def create_app(config_class: object):
